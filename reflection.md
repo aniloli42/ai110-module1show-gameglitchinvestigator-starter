@@ -5,39 +5,53 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 ## 1. What was broken when you started?
 
 - What did the game look like the first time you ran it?
-- List at least two concrete bugs you noticed at the start  
-  (for example: "the secret number kept changing" or "the hints were backwards").
+  - The hints showed the opposite direction — "Go Higher" appeared when I should go lower, and vice versa. The UI didn't update instantly after submitting a guess, and the attempt counter showed 1 less than the actual remaining attempts.
+- List at least two concrete bugs you noticed at the start
+  - The hint direction was reversed (hints were backwards).
+  - The range in the info message was hardcoded to 1–100 instead of updating based on difficulty.
+  - The score updated randomly on wrong guesses.
+  - The guess value sometimes became a string unexpectedly, breaking comparisons.
 
 ---
 
 ## 2. How did you use AI as a teammate?
 
 - Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
+  - I used Claude Code (Claude Sonnet) as my AI assistant.
 - Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
+  - When switching difficulty, the secret wasn't regenerating. AI suggested tracking the active difficulty in `st.session_state` and comparing it on each rerun to trigger a new secret. I verified it by switching from Easy to Hard and checking that the new secret was within the Hard range in the Developer Debug Info.
 - Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
+  - I wanted instant UI updates after a guess without moving elements around. AI suggested using `st.empty()` placeholders, but it ended up changing the layout of the UI instead of just fixing the update behavior, which wasn't what I wanted.
 
 ---
 
 ## 3. Debugging and testing your fixes
 
 - How did you decide whether a bug was really fixed?
-- Describe at least one test you ran (manual or using pytest)  
-  and what it showed you about your code.
+  - I first tested manually by reproducing the exact scenario where I noticed the bug, then checked if the behavior was correct after the fix.
+- Describe at least one test you ran (manual or using pytest) and what it showed you about your code.
+  - After fixing the hint direction and the type mismatch, I ran pytest with 37 tests covering both `logic_utils.py` and the Streamlit app via `AppTest`. All 37 passed, which confirmed the fixes worked correctly across different scenarios like wrong guesses, difficulty switching, and game over conditions.
 - Did AI help you design or understand any tests? How?
+  - Yes, I used AI to help write the pytest test suite. AI generated tests for each function in `logic_utils.py` and used Streamlit's `AppTest` to simulate the UI, which I hadn't used before.
 
 ---
 
 ## 4. What did you learn about Streamlit and state?
 
 - In your own words, explain why the secret number kept changing in the original app.
+  - The secret was generated with `random.randint()` every time the script ran, but without `st.session_state` to hold onto it, a new random number was produced on every rerun — even on small interactions like clicking a button.
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
+  - Every time you interact with a Streamlit app — clicking a button, typing in a box — the entire script re-executes from the top. `st.rerun()` also triggers this immediately. `st.session_state` is like a memory that survives each rerun, so you can track things like attempt count, score, and history across interactions.
 - What change did you make that finally gave the game a stable secret number?
+  - I didn't just stabilize the secret — I made sure it always stays within the correct range. By tracking the current difficulty in `st.session_state` and comparing it on each rerun, the secret is regenerated only when the difficulty actually changes, and always within the valid range for that difficulty.
 
 ---
 
 ## 5. Looking ahead: your developer habits
 
 - What is one habit or strategy from this project that you want to reuse in future labs or projects?
-  - This could be a testing habit, a prompting strategy, or a way you used Git.
+  - Diagnose the bug first before asking AI — by understanding what is wrong and writing a specific, targeted prompt, I was able to get useful fixes without introducing new bugs in the process.
 - What is one thing you would do differently next time you work with AI on a coding task?
+  - I would write better prompts and make small manual edits myself rather than accepting AI output wholesale, so I stay in control of the changes instead of relying on AI to get everything right.
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+  - AI produces better results when you already understand the problem — without that foundation, it's hard to write a prompt that gets to the right answer. This project showed me that coding knowledge and AI work best together, not as a replacement for each other.
