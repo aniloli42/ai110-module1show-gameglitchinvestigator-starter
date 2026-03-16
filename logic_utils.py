@@ -32,7 +32,7 @@ def parse_guess(raw: str):
     return True, value, None
 
 
-def check_guess(guess, secret):
+def check_guess(guess: int, secret: int):
     """
     Compare guess to secret and return (outcome, message).
 
@@ -47,7 +47,7 @@ def check_guess(guess, secret):
         else:
             return "Too Low", "📈 Go HIGHER!"
     except TypeError:
-        g = str(guess)
+        g = guess
         if g == secret:
             return "Win", "🎉 Correct!"
         if g > secret:
