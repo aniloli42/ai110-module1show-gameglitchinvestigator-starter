@@ -5,16 +5,23 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 ## 1. What was broken when you started?
 
 - What did the game look like the first time you ran it?
-- List at least two concrete bugs you noticed at the start  
-  (for example: "the secret number kept changing" or "the hints were backwards").
+  - The hints showed the opposite direction — "Go Higher" appeared when I should go lower, and vice versa. The UI didn't update instantly after submitting a guess, and the attempt counter showed 1 less than the actual remaining attempts.
+- List at least two concrete bugs you noticed at the start
+  - The hint direction was reversed (hints were backwards).
+  - The range in the info message was hardcoded to 1–100 instead of updating based on difficulty.
+  - The score updated randomly on wrong guesses.
+  - The guess value sometimes became a string unexpectedly, breaking comparisons.
 
 ---
 
 ## 2. How did you use AI as a teammate?
 
 - Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
+  - I used Claude Code (Claude Sonnet) as my AI assistant.
 - Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
+  - When switching difficulty, the secret wasn't regenerating. AI suggested tracking the active difficulty in `st.session_state` and comparing it on each rerun to trigger a new secret. I verified it by switching from Easy to Hard and checking that the new secret was within the Hard range in the Developer Debug Info.
 - Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
+  - I wanted instant UI updates after a guess without moving elements around. AI suggested using `st.empty()` placeholders, but it ended up changing the layout of the UI instead of just fixing the update behavior, which wasn't what I wanted.
 
 ---
 
