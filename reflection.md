@@ -39,14 +39,19 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 ## 4. What did you learn about Streamlit and state?
 
 - In your own words, explain why the secret number kept changing in the original app.
+  - The secret was generated with `random.randint()` every time the script ran, but without `st.session_state` to hold onto it, a new random number was produced on every rerun — even on small interactions like clicking a button.
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
+  - Every time you interact with a Streamlit app — clicking a button, typing in a box — the entire script re-executes from the top. `st.rerun()` also triggers this immediately. `st.session_state` is like a memory that survives each rerun, so you can track things like attempt count, score, and history across interactions.
 - What change did you make that finally gave the game a stable secret number?
+  - I didn't just stabilize the secret — I made sure it always stays within the correct range. By tracking the current difficulty in `st.session_state` and comparing it on each rerun, the secret is regenerated only when the difficulty actually changes, and always within the valid range for that difficulty.
 
 ---
 
 ## 5. Looking ahead: your developer habits
 
 - What is one habit or strategy from this project that you want to reuse in future labs or projects?
-  - This could be a testing habit, a prompting strategy, or a way you used Git.
+  - Diagnose the bug first before asking AI — by understanding what is wrong and writing a specific, targeted prompt, I was able to get useful fixes without introducing new bugs in the process.
 - What is one thing you would do differently next time you work with AI on a coding task?
+  - I would write better prompts and make small manual edits myself rather than accepting AI output wholesale, so I stay in control of the changes instead of relying on AI to get everything right.
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+  - AI produces better results when you already understand the problem — without that foundation, it's hard to write a prompt that gets to the right answer. This project showed me that coding knowledge and AI work best together, not as a replacement for each other.
