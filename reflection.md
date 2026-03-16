@@ -28,9 +28,11 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 ## 3. Debugging and testing your fixes
 
 - How did you decide whether a bug was really fixed?
-- Describe at least one test you ran (manual or using pytest)  
-  and what it showed you about your code.
+  - I first tested manually by reproducing the exact scenario where I noticed the bug, then checked if the behavior was correct after the fix.
+- Describe at least one test you ran (manual or using pytest) and what it showed you about your code.
+  - After fixing the hint direction and the type mismatch, I ran pytest with 37 tests covering both `logic_utils.py` and the Streamlit app via `AppTest`. All 37 passed, which confirmed the fixes worked correctly across different scenarios like wrong guesses, difficulty switching, and game over conditions.
 - Did AI help you design or understand any tests? How?
+  - Yes, I used AI to help write the pytest test suite. AI generated tests for each function in `logic_utils.py` and used Streamlit's `AppTest` to simulate the UI, which I hadn't used before.
 
 ---
 
