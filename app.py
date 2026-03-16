@@ -90,20 +90,17 @@ if st.session_state.status != "playing":
     st.stop()
 
 if submit:
-    st.session_state.attempts += 1
-
     ok, guess_int, err = parse_guess(raw_guess)
 
-    if not ok:
-        st.session_state.history.append(raw_guess)
+    if not ok or guess_int is None:
         st.error(err)
-    else:
+        st.rerun()
+    
+    if ok:
+        st.session_state.attempts += 1
         st.session_state.history.append(guess_int)
 
-        if st.session_state.attempts % 2 == 0:
-            secret = str(st.session_state.secret)
-        else:
-            secret = st.session_state.secret
+        secret = st.session_state.secret
 
         outcome, message = check_guess(guess_int, secret)
 
@@ -131,6 +128,9 @@ if submit:
                     f"The secret was {st.session_state.secret}. "
                     f"Score: {st.session_state.score}"
                 )
+            else:
+                st.rerun()
+
 
 st.divider()
 st.caption("Built by an AI that claims this code is production-ready.")
